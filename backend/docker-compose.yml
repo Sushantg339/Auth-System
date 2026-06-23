@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mongo_db:
+    image: mongo
+    container_name: auth_mongo_db
+    volumes:
+      - auth_db:/data/db
+    ports:
+      - "27027:27017"
+
+  redis_cache:
+    image: redis
+    container_name: redis_cache
+    volumes:
+      - cache_db:/data
+    ports:
+      - "6739:6379"
+
+  auth_service:
+    build: .
+    container_name: auth_project
+    depends_on:
+      - mongo_db
+      - redis_cache
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo_db:27017/auth_system
+      - REDIS_URL=redis://redis_cache:6379
+      - PORT=3000
+    env_file:
+      - .env
+
+volumes:
+  auth_db:
+  cache_db:
