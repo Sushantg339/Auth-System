@@ -11,7 +11,7 @@ interface SendMailOptions {
 
 export const sendMail = async ({ email, subject, html }: SendMailOptions): Promise<SentMessageInfo> => {
     return await transporter.sendMail({
-        from: config.mail.user,
+        from: config.MAIL.USER,
         to: email,
         subject,
         html,

@@ -11,26 +11,26 @@ function requireEnv(key: string): string {
 }
 
 export const config = {
-  port: Number(process.env.PORT) || 3000,
-  nodeEnv: process.env.NODE_ENV || 'development',
+  PORT: Number(process.env.PORT) || 3000,
+  NODE_ENV: process.env.NODE_ENV || 'development',
 
-  mongodbUri: requireEnv('MONGODB_URI'),
-  appName: requireEnv("APP_NAME"),
+  MONGODB_URI: requireEnv('MONGODB_URI'),
+  APP_NAME: requireEnv("APP_NAME"),
 
-  mail: {
-    host: requireEnv('MAIL_HOST'),
-    user: requireEnv('MAIL_USER'),
-    pass: requireEnv('MAIL_PASS'),
+  MAIL: {
+    HOST: requireEnv('MAIL_HOST'),
+    USER: requireEnv('MAIL_USER'),
+    PASS: requireEnv('MAIL_PASS'),
   },
 
-  redisUrl: requireEnv('REDIS_URL'),
+  REDIS_URL: requireEnv('REDIS_URL'),
 
-  jwt: {
-    accessTokenSecret: requireEnv('ACCESS_TOKEN_SECRET'),
-    refreshTokenSecret: requireEnv('REFRESH_TOKEN_SECRET'),
+  JWT: {
+    ACCESS_TOKEN_SECRET: requireEnv('ACCESS_TOKEN_SECRET'),
+    REFRESH_TOKEN_SECRET: requireEnv('REFRESH_TOKEN_SECRET'),
   },
 
-  frontendUrl: requireEnv('FRONTEND_URL'),
+  FRONTEND_URL: requireEnv('FRONTEND_URL'),
 } as const;
 
 export type Config = typeof config;

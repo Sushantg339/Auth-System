@@ -1,7 +1,7 @@
 import { createClient } from "redis";
 import { config } from "./env.config.js"
 
-const REDIS_URL = config.redisUrl
+const REDIS_URL = config.REDIS_URL
 
 if(!REDIS_URL){
     throw new Error("Cache DB Url missing")

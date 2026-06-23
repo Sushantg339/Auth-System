@@ -11,12 +11,12 @@ import { config } from "./config/env.config.js"
 
 const app = express()
 
-const PORT = config.port;
+const PORT = config.PORT;
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: config.frontendUrl,
+    origin: config.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"]
 }))

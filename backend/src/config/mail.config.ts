@@ -2,10 +2,10 @@ import nodemailer from "nodemailer"
 import {config} from "./env.config.js"
 
 const transporter = nodemailer.createTransport({
-    host: config.mail.host,
+    host: config.MAIL.HOST,
     auth:{
-        user: config.mail.user,
-        pass: config.mail.pass
+        user: config.MAIL.USER,
+        pass: config.MAIL.PASS
     }
 })
 
