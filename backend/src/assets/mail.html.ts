@@ -1,3 +1,5 @@
+import { config } from "../config/env.config.js"
+
 export const getOtpHtml = ({ email, otp }: {email: string, otp: string}) => {
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -164,8 +166,8 @@ Use the verification code below to complete your sign-in to Authentication App.
 };
 
 export const getVerifyEmailHtml = ({ email, token } : { email: string, token: string }) => {
-  const appName = process.env.APP_NAME || "Authentication App";
-  const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const appName = config.APP_NAME || "Authentication App";
+  const baseUrl = config.FRONTEND_URL || "http://localhost:5173";
   const verifyUrl = `${baseUrl.replace(/\/+$/, "")}/token/${encodeURIComponent(token)}`;
 
   const html = `<!DOCTYPE html>

@@ -1,11 +1,12 @@
 import type { Response } from "express"
 import jwt, { type JwtPayload } from "jsonwebtoken"
+import { config } from "../config/env.config.js"
 
 import client from "../config/redis.config.js"
 import { generateCsrfToken, revokeCsrfToken } from "./csrf.js"
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET
+const ACCESS_TOKEN_SECRET = config.JWT.ACCESS_TOKEN_SECRET
+const REFRESH_TOKEN_SECRET = config.JWT.REFRESH_TOKEN_SECRET
 
 if(!ACCESS_TOKEN_SECRET){
     throw new Error("Access token secret is missing")

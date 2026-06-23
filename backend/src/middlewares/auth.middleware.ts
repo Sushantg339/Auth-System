@@ -1,10 +1,12 @@
 import type { RequestHandler } from "express"
 import jwt, { type JwtPayload } from "jsonwebtoken"
 
+import { config } from "../config/env.config.js"
+
 import client from "../config/redis.config.js"
 import userModel from "../models/user.model.js"
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
+const ACCESS_TOKEN_SECRET = config.JWT.ACCESS_TOKEN_SECRET
 
 if(!ACCESS_TOKEN_SECRET){
     throw new Error("Access token secret is missing")

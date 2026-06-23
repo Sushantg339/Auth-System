@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { config } from "./env.config.js"
 
-const MONGODB_URI = process.env.MONGODB_URI
+const MONGODB_URI = config.MONGODB_URI
 
 if(!MONGODB_URI){
     throw new Error("DB Url is missing")
