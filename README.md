@@ -26,7 +26,7 @@ A full-stack authentication system with secure user registration, login, email v
 - [Project Structure](#project-structure)
 - [Authentication Flow](#authentication-flow)
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Backend
 - **Runtime**: Node.js with TypeScript
@@ -50,7 +50,7 @@ A full-stack authentication system with secure user registration, login, email v
 - **Notifications**: React Toastify
 - **Linting**: ESLint
 
-## 📦 Prerequisites
+## Prerequisites
 
 - **Node.js**: v18 or higher
 - **npm**: v9 or higher
@@ -59,7 +59,7 @@ A full-stack authentication system with secure user registration, login, email v
 - **Git**: For version control
 - **Gmail Account**: For email notifications (SMTP)
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -92,7 +92,7 @@ npm install
 cp .env.example .env
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Backend Environment Variables (`.env`)
 
@@ -133,7 +133,7 @@ VITE_API_URL=http://localhost:3000/api/v1
 2. Generate an App Password at [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
 3. Use the generated password as `MAIL_PASS`
 
-## 🏃 Running the Application
+## Running the Application
 
 ### Option 1: Without Docker
 
@@ -164,7 +164,7 @@ Frontend will run at: `http://localhost:5173`
 docker-compose up --build
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Authentication Routes (`/api/v1/user/`)
 
@@ -209,7 +209,7 @@ POST /api/v1/user/verify
 }
 ```
 
-## 🏗 Project Structure
+## Project Structure
 
 ```
 Auth-System/
@@ -275,7 +275,7 @@ Auth-System/
     └── .env.example
 ```
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 ### Registration Flow
 1. User fills signup form (name, email, password)
