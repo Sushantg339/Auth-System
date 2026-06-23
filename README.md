@@ -158,7 +158,7 @@ npm run dev
 
 Frontend will run at: `http://localhost:5173`
 
-### Option 2: With Docker (if configured)
+### Option 2: With Docker: only for backend (if configured)
 
 ```bash
 docker-compose up --build
@@ -204,6 +204,7 @@ POST /api/v1/user/login
 ```json
 POST /api/v1/user/verify
 {
+  "email" : "abc@abc.com",
   "otp": "123456"
 }
 ```
