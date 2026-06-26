@@ -4,16 +4,17 @@ A full-stack authentication system with secure user registration, login, email v
 
 ## 🌟 Features
 
-- **User Registration**: Sign up with email, name, and password
-- **Email Verification**: Verification token sent via email upon signup
-- **Login with OTP**: Secure login with one-time password verification
-- **JWT Authentication**: Access and refresh tokens for secure API access
-- **CSRF Protection**: Built-in CSRF middleware for enhanced security
-- **Redis Caching**: Session and cache management with Redis
-- **Password Hashing**: Bcrypt for secure password storage
-- **Input Validation**: Zod schema validation for request/response data
-- **Error Handling**: Comprehensive error middleware
-- **CORS Support**: Configured CORS for frontend-backend communication
+- **User Registration** – Sign up with name, email, and password
+- **Email Verification** – Email verification using secure verification tokens
+- **OTP-Based Login** – Secure login with one-time password (OTP) verification
+- **JWT Authentication** – Secure access and refresh token authentication
+- **CSRF Protection** – Built-in CSRF protection for secure requests
+- **Redis Session Management** – Store and manage user sessions with Redis
+- **Single Active Session** – A user can only be logged in on one device/session at a time
+- **Password Security** – Passwords hashed securely using bcrypt
+- **Input Validation** – Request validation with Zod schemas
+- **Centralized Error Handling** – Consistent API error responses
+- **CORS Configuration** – Secure frontend-backend communication
 
 ## 📋 Table of Contents
 
