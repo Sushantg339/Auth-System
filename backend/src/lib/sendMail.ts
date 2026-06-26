@@ -1,4 +1,5 @@
 import type { SentMessageInfo } from "nodemailer";
+import { config } from "../config/env.config.js"
 
 import transporter from "../config/mail.config.js";
 
@@ -10,7 +11,7 @@ interface SendMailOptions {
 
 export const sendMail = async ({ email, subject, html }: SendMailOptions): Promise<SentMessageInfo> => {
     return await transporter.sendMail({
-        from: process.env.MAIL_USER,
+        from: config.MAIL.USER,
         to: email,
         subject,
         html,

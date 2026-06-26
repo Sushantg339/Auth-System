@@ -25,7 +25,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [logoutLoading, setLogoutLoading] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState<any>(false);
 
   const fetchUser = async () => {
     setLoading(true);
@@ -36,6 +36,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setIsAuth(true);
     } catch (error) {
       console.log(error);
+      setUser(null)
+      setIsAuth(null)
     } finally {
       setLoading(false);
     }

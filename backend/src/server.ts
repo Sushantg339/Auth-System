@@ -7,15 +7,16 @@ import connectToDB from "./config/db.config.js"
 import mainRouter from "./routes/main.routes.js"
 import errorHandler from "./middlewares/error.middleware.js"
 import client from "./config/redis.config.js"
+import { config } from "./config/env.config.js"
 
 const app = express()
 
-const PORT = process.env.PORT || 5000
+const PORT = config.PORT;
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: config.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"]
 }))
