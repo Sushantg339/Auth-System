@@ -1,4 +1,4 @@
-# Authentication System
+﻿# Authentication System
 
 A full-stack authentication system with secure user registration, login, email verification, and OTP-based verification. Built with modern technologies including TypeScript, React, Express, MongoDB, and Redis.
 
