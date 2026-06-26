@@ -227,7 +227,7 @@ export const verifyOtpController: RequestHandler = asyncHandler(async (req, res)
     if(!storedOtpString){
         return res.status(400).json({
             success: false,
-            messagee: "Otp expired",
+            message: "Otp expired",
             data: null
         })
     }
@@ -237,7 +237,7 @@ export const verifyOtpController: RequestHandler = asyncHandler(async (req, res)
     if(storedOtp !== otp){
         return res.status(400).json({
             success: false,
-            messagee: "Invalid Otp",
+            message: "Invalid Otp",
             data: null
         })
     }
@@ -249,27 +249,52 @@ export const verifyOtpController: RequestHandler = asyncHandler(async (req, res)
     if(!user){
         return res.status(404).json({
             success: false,
-            messagee: "User not found",
+            message: "User not found",
             data: null
         })
     }
 
-    await generateToken(String(user._id), res)
+    const tokenData = await generateToken(String(user._id), res)
 
     return res.status(200).json({
         success: true,
         message: `${user.name} logged in successfully`,
-        data: user
+        data: {
+            ...user,
+            sessionInfo:{
+                sessionId: tokenData.sessionId,
+                loginTime: new Date().toISOString(),
+                csrfToken : tokenData.csrfToken
+            }
+        }
     })
 })
 
 export const myProfileController: RequestHandler = asyncHandler(async (req , res)=>{
     const user = req.user
+    const sessionId = req.sessionId
+
+    const sessionData = await client.get(`session:${sessionId}`)
+
+    let sessionInfo = null
+
+    if(sessionData){
+        const parsedSessionData = JSON.parse(sessionData)
+
+        sessionInfo = {
+            sessionId,
+            loginTime: parsedSessionData.createdAt,
+            lastActivity: parsedSessionData.lastActivity
+        }
+    }
 
     return res.status(200).json({
         success: true,
         message : `${user?.name}'s profile fetched successfully`,
-        data: user
+        data: {
+            ...user,
+            sessionInfo
+        }
     })
 })
 
@@ -287,14 +312,18 @@ export const refreshAccessToken: RequestHandler = asyncHandler(async(req , res)=
     const decoded = await verifyRefreshToken(refreshToken)
 
     if(!decoded){
+        res.clearCookie("refreshToken")
+        res.clearCookie("accessToken")
+        res.clearCookie("csrfToken")
+
         return res.status(401).json({
             success: false,
-            message: "Invalid refresh token",
+            message: "Session Expired. Please login",
             data: null
         })
     }
 
-    generateAccessToken(decoded.id, res)
+    generateAccessToken(decoded.id, decoded.sessionId, res)
 
     return res.status(200).json({
         success: true,
@@ -343,7 +372,7 @@ export const refreshCsrf: RequestHandler = asyncHandler(async(req , res)=>{
     const newCsrfToken = await generateCsrfToken(userId, res)
 
     return res.status(200).json({
-        succesS: true,
+        success: true,
         message: "CSRF token refreshed successfully",
         data:{
             csrfToken : newCsrfToken

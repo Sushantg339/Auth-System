@@ -3,6 +3,7 @@ import jwt, { type JwtPayload } from "jsonwebtoken"
 
 import client from "../config/redis.config.js"
 import userModel from "../models/user.model.js"
+import { isSessionActive } from "../lib/generateToken.js"
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 
@@ -19,7 +20,8 @@ declare global{
                 name: string,
                 email: string,
                 role: string
-            }
+            },
+            sessionId?: string
         }
     }
 }
@@ -46,10 +48,34 @@ const authMiddleware: RequestHandler = async(req , res, next)=>{
             })
         }
 
-        const cacheUser = await client.get(`user:${decoded.id}`)
+        const isActiveSession = await isSessionActive(decoded.id, decoded.sessionId)
 
-        if(cacheUser){
-            req.user = JSON.parse(cacheUser)
+        if(!isActiveSession){
+            res.clearCookie("refreshToken")
+            res.clearCookie("accessToken")
+            res.clearCookie("csrfToken")
+
+            return res.status(401).json({
+                success: false,
+                message: "Session Expired. You have been logged in from another device"
+            })
+        }
+
+        const sessionKey = `session:${decoded.sessionId}`
+
+        const session = await client.get(sessionKey)
+
+        if (session) { 
+            const parsedSession = JSON.parse(session) 
+            parsedSession.lastActivity = new Date().toISOString()
+            await client.setEx( sessionKey, 7 * 24 * 60 * 60, JSON.stringify(parsedSession) )
+        }
+
+        const cachedUser = await client.get(`user:${decoded.id}`)
+
+        if(cachedUser){
+            req.user = JSON.parse(cachedUser)
+            req.sessionId = decoded.sessionId
             return next()
         }
 
@@ -71,9 +97,14 @@ const authMiddleware: RequestHandler = async(req , res, next)=>{
             email: user.email,
             role: user.role
         }
+        req.sessionId = decoded.sessionId
 
         next()
     } catch (error) {
+        res.clearCookie("accessToken")
+        res.clearCookie("refreshToken")
+        res.clearCookie("csrfToken")
+        
         return res.status(401).json({
             success: false,
             message: "Unauthorized",
